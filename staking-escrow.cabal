@@ -1,0 +1,135 @@
+Cabal-Version:      2.4
+Name:               staking-experiment
+Version:            0.1.0.0
+Author:             Gabriel Claramunt
+Maintainer:         gabriel.claramunt@gmail.com
+Build-Type:         Simple
+License:            Apache-2.0
+License-files:      LICENSE
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Contract.SimpleEscrow
+  build-depends:       aeson
+                     , base ^>=4.14.1.0
+                     , containers
+                     , data-default
+                     , playground-common
+                     , plutus-contract
+                     , plutus-ledger
+                     , plutus-ledger-constraints
+                     , plutus-ledger-api
+                     , plutus-tx-plugin
+                     , plutus-tx
+                     , text
+                     , lens
+  default-language:    Haskell2010
+  default-extensions: ExplicitForAll ScopedTypeVariables
+                        DeriveGeneric StandaloneDeriving DeriveLift
+                        GeneralizedNewtypeDeriving DeriveFunctor DeriveFoldable
+                        DeriveTraversable MultiParamTypeClasses ImportQualifiedPost
+  ghc-options:         -Wall -fobject-code -fno-ignore-interface-pragmas -fno-omit-interface-pragmas -fno-strictness -fno-spec-constr -fno-specialise
+
+test-suite staking-excrow-test
+    type: exitcode-stdio-1.0
+    main-is: Spec.hs
+    hs-source-dirs: test
+    other-modules:
+        Spec.SimpleEscrow        
+    default-language: Haskell2010
+    default-extensions: ImportQualifiedPost
+    ghc-options: -Wall -Wnoncanonical-monad-instances
+                 -Wincomplete-uni-patterns -Wincomplete-record-updates
+                 -Wredundant-constraints -Widentities -rtsopts
+                 -- See Plutus Tx readme
+                 -fobject-code -fno-ignore-interface-pragmas -fno-omit-interface-pragmas
+    build-depends:
+        plutus-tx -any,
+        plutus-contract -any,
+        plutus-ledger -any,
+        plutus-ledger-constraints -any,
+        plutus-use-cases -any
+    build-depends:
+        base >=4.9 && <5,
+        bytestring -any,
+        cardano-crypto-class -any,
+        containers -any,
+        data-default -any,
+        freer-extras -any,
+        prettyprinter -any,
+        tasty -any,
+        tasty-hunit -any,
+        tasty-hedgehog >=0.2.0.0,
+        tasty-golden -any,
+        tasty-quickcheck -any,
+        text -any,
+        lens -any,
+        mtl -any,
+        QuickCheck -any,
+        freer-simple -any,
+        foldl -any,
+        streaming -any,
+        plutus-pab
+
+    if !(impl(ghcjs) || os(ghcjs))
+        build-depends: plutus-tx-plugin -any
+
+-- runs emulator traces and
+-- writes all applied validator scripts to a folder
+executable scripts
+    main-is: Main.hs
+    hs-source-dirs:
+        scripts
+        test
+    default-language: Haskell2010
+    default-extensions: ImportQualifiedPost
+    other-modules:
+        Spec.SimpleEscrow
+    ghc-options: -Wall -Wnoncanonical-monad-instances
+                 -Wincomplete-uni-patterns -Wincomplete-record-updates
+                 -Wredundant-constraints -Widentities -rtsopts
+                 -- See Plutus Tx readme
+                 -fobject-code -fno-ignore-interface-pragmas -fno-omit-interface-pragmas
+    build-depends:
+        base >= 4.9 && <5,
+        aeson -any,
+        bytestring -any,
+        cardano-crypto-class -any,
+        containers -any,
+        data-default -any,
+        flat -any,
+        freer-extras -any,
+        hedgehog -any,
+        prettyprinter -any,
+        QuickCheck -any,
+        tasty -any,
+        tasty-hunit -any,
+        tasty-golden -any,
+        tasty-quickcheck -any,
+        text -any,
+        lens -any,
+        mtl -any,
+        row-types -any,
+        freer-simple -any,
+        foldl -any,
+        streaming -any,
+        directory -any,
+        filepath -any,
+        serialise -any,
+        plutus-core -any,
+        plutus-ledger-api -any,
+        plutus-tx -any,
+        plutus-contract -any,
+        plutus-chain-index-core -any,
+        plutus-ledger -any,
+        plutus-ledger-constraints -any,
+        plutus-use-cases -any,
+        optparse-applicative -any,
+        aeson-pretty -any,
+        cardano-api -any,
+        cardano-binary -any,
+        cborg -any,
+        memory -any
+
+    if !(impl(ghcjs) || os(ghcjs))
+        build-depends: plutus-tx-plugin -any
